@@ -1,0 +1,7 @@
+/**/.ipynb_checkpoints
+#1. censor application/physical/notebooks/stocksconfig.json
+#2. git add application/physical/notebooks/stocksconfig.json
+#3. git commit
+#4. git update-index --assume-unchanged application/physical/notebooks/stocksconfig.json
+# https://stackoverflow.com/a/11366713/9576512
+#->git update-index --no-assume-unchanged application/physical/notebooks/stocksconfig.json
