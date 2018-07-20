@@ -1,0 +1,29 @@
+cron:
+# - description: "every minute"
+#   url: /cron/minutely
+#   #target: beta
+#   schedule: every 1 minutes
+
+# - description: "nasdaq open"
+#   url: /nasdaq
+#   #target: beta
+#   schedule: every day 09:35
+#   timezone: America/New_York
+
+# - description: "nasdaq close"
+#   url: /nasdaq
+#   #target: beta
+#   schedule: every day 16:05
+#   timezone: America/New_York
+
+# - description: "xetra close"
+#   url: /xetra
+#   #target: beta
+#   schedule: every day 9:05
+#   timezone: Europe/Berlin
+
+# - description: "xetra open"
+#   url: /xetra
+#   #target: beta
+#   schedule: every day 17:35
+#   timezone: Europe/Berlin
