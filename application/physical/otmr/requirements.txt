@@ -1,0 +1,11 @@
+google-api-python-client==1.7.4
+pylint==1.9.3
+webapp2==2.5.2
+beautifulsoup4==4.6.1
+bs4==0.0.1
+GoogleAppEngineCloudStorageClient==1.9.22.1
+MySQL-python==1.2.5
+google-api-python-client==1.7.4
+gcloud==0.18.3
+lxml==4.2.4
+numpy==1.15.0

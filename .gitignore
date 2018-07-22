@@ -5,3 +5,8 @@
 #4. git update-index --assume-unchanged application/physical/notebooks/stocksconfig.json
 # https://stackoverflow.com/a/11366713/9576512
 #->git update-index --no-assume-unchanged application/physical/notebooks/stocksconfig.json
+application/physical/otmr/apicaller/apikey.yaml
+application/physical/otmr/scraper/cloudsql_password.yaml
+
+application/physical/otmr/charter/lib/matplotlib
+

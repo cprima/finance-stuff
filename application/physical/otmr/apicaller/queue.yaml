@@ -1,0 +1,5 @@
+queue:
+- name: candlestick
+  mode: push
+  target: charter
+  rate: 2/m

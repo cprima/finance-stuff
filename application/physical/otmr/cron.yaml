@@ -1,0 +1,34 @@
+cron:
+
+- description: "nasdaq open"
+  url: /exchange/nasdaq
+  target: dispatcher
+  schedule: every day 09:35
+  timezone: America/New_York
+- description: "nasdaq close"
+  url: /exchange/nasdaq
+  target: dispatcher
+  schedule: every day 16:05
+  timezone: America/New_York
+
+- description: "xetra open"
+  url: /exchange/xetra
+  target: dispatcher
+  schedule: every day 9:45
+  timezone: Europe/Berlin
+- description: "xetra close"
+  url: /exchange/xetra
+  target: dispatcher
+  schedule: every day 17:35
+  timezone: Europe/Berlin
+
+- description: "MSCI World"
+  url: /onvista/MSCIWorld
+  target: scraper
+  schedule: every day 23:55
+  timezone: Europe/Berlin
+- description: "MSCI EM"
+  url: /onvista/MSCIEM
+  target: scraper
+  schedule: every day 23:55
+  timezone: Europe/Berlin

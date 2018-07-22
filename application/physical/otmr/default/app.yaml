@@ -1,0 +1,16 @@
+runtime: go
+api_version: go1
+service: default
+
+handlers:
+- url: /favicon.ico
+  static_files: static/images/favicon.ico
+  upload: static/images/favicon.ico
+- url: /.*
+  script: _go_app
+
+#skip_files:
+#- dispatcher/
+#- apicaller/
+#- charter/
+#- presenter/

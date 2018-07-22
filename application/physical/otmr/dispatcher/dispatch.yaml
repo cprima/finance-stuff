@@ -1,0 +1,5 @@
+dispatch:
+  - url: "*/favicon.ico"
+    service: default
+  - url: "*/av/*"
+    service: apicaller

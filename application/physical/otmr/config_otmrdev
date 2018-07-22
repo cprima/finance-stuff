@@ -1,0 +1,12 @@
+[core]
+account = cprior@gmail.com
+project = otmr-dev
+disable_usage_reporting = True
+
+[compute]
+zone = europe-west3-b
+region = europe-west3
+
+[app]
+promote_by_default = true
+

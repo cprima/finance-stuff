@@ -1,0 +1,3 @@
+dispatch:
+  - url: "*/favicon.ico"
+    service: default
