@@ -1,0 +1,22 @@
+runtime: python27
+api_version: 1
+service: reader
+threadsafe: no
+
+handlers:
+- url: /.*
+  script: main.app
+
+env_variables:
+  CLOUDSQL_CONNECTION_NAME: otmr-dev:europe-west3:otmr-dev-mysql
+  CLOUDSQL_USER: otmr
+  CLOUDSQL_PASSWORD: tobeoverwritten
+includes:
+- cloudsql_password.yaml
+
+libraries:
+- name: lxml
+  version: "2.3"
+- name: matplotlib
+  version: "latest"
+
