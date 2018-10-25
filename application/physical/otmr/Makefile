@@ -13,7 +13,7 @@ gae-local:
 gae-dev:
 	cp config_otmrdev ~/.config/gcloud/configurations/config_otmrdev
 	gcloud config configurations activate otmrdev
-	GOPATH=$(GOPATH) gcloud app deploy default/app.yaml dispatcher/app.yaml apicaller/app.yaml --stop-previous-version --promote --quiet
+	GOPATH=$(GOPATH) gcloud app deploy default/app.yaml dispatcher/app.yaml apicaller/app.yaml presenter/app.yaml --stop-previous-version --promote --quiet
 	gcloud app deploy cron.yaml --quiet
 	###gcloud app deploy default/cron.yaml --quiet
 	#gcloud app deploy --quiet default/dispatch.yaml 
@@ -24,10 +24,10 @@ gae-dev:
 
 	gcloud app deploy --quiet apicaller/queue.yaml
 
-gae:
+temp:
 	cp config_otmrdev ~/.config/gcloud/configurations/config_otmrdev
 	gcloud config configurations activate otmrdev
-	gcloud app deploy charter/app.yaml --stop-previous-version --promote --quiet
+	gcloud app deploy default/app.yaml --stop-previous-version --promote --quiet
 	#GOPATH=$(GOPATH) gcloud app deploy apicaller/app.yaml dispatcher/app.yaml --stop-previous-version --promote --quiet
 	#gcloud app deploy --quiet dispatcher/dispatch.yaml
 	#gcloud app deploy --quiet apicaller/queue.yaml

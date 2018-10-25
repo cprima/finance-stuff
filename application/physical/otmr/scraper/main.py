@@ -27,6 +27,97 @@ CLOUDSQL_PASSWORD = os.environ.get('CLOUDSQL_PASSWORD')
 # locale.setlocale(locale.LC_ALL, 'de_DE.UTF-8')
 
 
+class CnnFearGreedScraper(object):
+
+    def __init__(self):
+        config = {}
+        config['symbol'] = 'myCNNFG'
+        config['xpath'] = '//*[@id="needleChart"]/ul/li[1]'
+        config['selector'] = '#needleChart > ul > li:nth-child(1)'
+        config['url'] = 'https://money.cnn.com/data/fear-and-greed/'
+        config['timeout'] = 10
+        self.config = config
+        self.result = ''
+
+    def __make_request(self):
+
+        headers = {
+            "User-Agent": "OTMR cprior@gmail.com",
+            "Accept-Language": "de-DE"
+        }
+
+        try:
+            result = urlfetch.fetch(
+                self.config['url'], deadline=self.config['timeout'], headers=headers)
+            if result.status_code == 200:
+                # self.response.write(result.content)
+                return result.status_code, self.config['url'], result.content
+            else:
+                # self.response.status_code = result.status_code
+                return result.status_code, self.config['url'], None
+        except urlfetch.Error:
+            # self.response.status_code = 501
+            return result.status_code, self.config['url'], None
+
+    def __parse_result(self, url, html):
+        try:
+            soup = BeautifulSoup(html, 'html.parser')
+
+            result = {}
+            items = soup.select('#needleChart > ul > li')
+            for item in items:
+                item = item.text.strip()
+                if item.split()[3] == "Now:":
+                    for part in item.split():
+                        try:
+                            result['now'] = int(part)
+                        except ValueError:
+                            pass
+                elif item.split()[3] == "Previous":
+                    for part in item.split():
+                        try:
+                            result['previous'] = int(part)
+                        except ValueError:
+                            pass
+                else:
+                    pass
+            lastupdatedstring = soup.select('#needleAsOfDate')
+            # https://stackoverflow.com/a/1712131/9576512
+            yesterday = datetime.datetime.now() - datetime.timedelta(days=1)
+            yesterday.strftime('%Y')
+
+            # https://stackoverflow.com/a/466376/9576512
+            datetime_object = datetime.datetime.strptime(yesterday.strftime(
+                '%Y')+lastupdatedstring[0].text.strip(), '%YLast updated %b %d at %I:%M%p')
+
+            result['date'] = datetime.datetime.strftime(
+                datetime_object, "%Y-%m-%d")
+            result['time'] = datetime.datetime.strftime(
+                datetime_object, "%H:%M:%S")
+
+            self.result = result
+
+        except Exception as e:
+            raise e
+
+    def __persistFearGreed(self):
+        db = connect_to_cloudsql()
+        cursor = db.cursor()
+        cursor.execute(
+            'INSERT IGNORE INTO `otmr`.`quotes` (`isin`, `exchange_id`, `currency_id`, `date`,`time`,`close`) VALUES (%s, %s, %s, %s, %s, %s);', (
+                self.config['symbol'], 2, 1, self.result['date'], self.result['time'], self.result['now']))
+        db.commit()
+
+    def handle(self):
+        status_code, url, html = self.__make_request()
+        if html is not None:
+            self.__parse_result(url, html)
+            # self.__saveCsv()
+            self.__persistFearGreed()
+        else:
+            self.results = None
+
+
 class OnvistaIndexScraper(object):
 
     def __init__(self, reqparam):
@@ -177,6 +268,19 @@ class Onvista(webapp2.RequestHandler):
             '<pre>'+scraper.config['url'] + '\n' + str(scraper.results) + '</pre>\n\n')
 
 
+class CnnFearGreed(webapp2.RequestHandler):
+    def post(self):
+        scraper = CnnFearGreedScraper()
+        scraper.handle()
+
+    def get(self):
+        mylog('cnnfeargreed')
+        scraper = CnnFearGreedScraper()
+        scraper.handle()
+        self.response.write(
+            '<pre>'+scraper.config['url'] + '\n' + str(scraper.result) + '</pre>\n\n')
+
+
 class MainPage(webapp2.RequestHandler):
     def get(self):
         self.response.headers['Content-Type'] = 'text/plain'
@@ -235,6 +339,7 @@ class MysqlPage(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/onvista/(\w*?)$', Onvista),
+    ('/cnnfeargreed', CnnFearGreed),
     ('/db', MysqlPage),
     ('/', MainPage),
 ], debug=True)

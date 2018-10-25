@@ -32,3 +32,9 @@ cron:
   target: scraper
   schedule: every day 23:55
   timezone: Europe/Berlin
+
+- description: "CNN Fear Greed"
+  url: /cnnfeargreed
+  target: scraper
+  schedule: every day 17:05
+  timezone: America/New_York
