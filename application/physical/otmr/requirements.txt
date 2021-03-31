@@ -7,5 +7,5 @@ GoogleAppEngineCloudStorageClient==1.9.22.1
 MySQL-python==1.2.5
 google-api-python-client==1.7.4
 gcloud==0.18.3
-lxml==4.2.4
+lxml==4.6.3
 numpy==1.15.0
